@@ -12,11 +12,16 @@
     <div id="modal"></div>
   </div>
   <div class="page">
+    {% comment %} <input
+      id="get_listed_groceries_url"
+      hidden
+      value="{% url 'groceries:items-list' %}"
+    >{% endcomment %}
     <div class="button-container">
       {% include 'groceries/buttons/icon_button.html' with icon_classes="fa-solid fa-square-plus" %}
     </div>    
     <div class="paper">
-      <ul id="list">
+      <ul id="groceries-list">
         {% for item in items %}
           <li href="/" class="active">{{ item.name }}</li>
         {% endfor %}
@@ -31,7 +36,7 @@
 <template id="edit-template">
   <div class="center-middle flex-column">
     {% with pk_placeholder=0 %}
-      <input {% comment %} store url to set item on list {% endcomment %}
+      <input
         id="select_item_url"
         hidden
         value="{% url 'groceries:items-on-list' pk=pk_placeholder %}"

@@ -21,8 +21,8 @@ function getGroceries(e) {
         url: $input.attr("x-url"),
         // param-name must align to expected one from SearchFilter class in viewset: "search"
         data: {search: $input.val().trim()},
-        success: (data) => { // create items buttons from data
-            for (const item of data) {
+        success: (items) => { // create items buttons from data
+            for (const item of items) {
                 $itemButton = $(`<button>${item.name}</button>`)
                     .on("click", e => setItemOnList(e, item));
                 $itemContainer.append($itemButton);
@@ -37,13 +37,31 @@ function setItemOnList(e, item) {
     $.ajax({
         type: "POST",
         url: urlTemplate.replace($input.attr("x-pkPlaceholder"), item.id),
-        // param-name must align to expected one from SearchFilter class in viewset: "search"
-        // data: {"item": item.id},
-        success: (data) => { // create items buttons from data
-            for (item of data) {
-                $itemButton = $(`<button>${item.name}</button>`) //TODO: .click()
-                $itemContainer.append($itemButton);
-            };
+        success: (item) => {
+            clearSelection();
+            // add selected item element to groceries list
+            $("#groceries-list")
+                .append($(`<li href="/" class="active">${item.name}</li>`))
         }
     });
 }
+
+function clearSelection() {
+    $("#edit-input").val("");
+    $("#item-options").empty();
+}
+
+// function renderGroceriesList() {
+//     $groceriesList = $("#groceries-list");
+//     $.ajax({
+//         type: "GET",
+//         url: $("#get_listed_groceries_url").val(),
+//         success: (items) => {
+//             // re-populate groceries list
+//             $groceriesList.empty();
+//             items.forEach(item => {
+//                 $groceriesList.append($(`<li href="/" class="active">${item.name}</li>`))
+//             });
+//         }
+//     });    
+// }
