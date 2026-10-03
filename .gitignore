@@ -3,6 +3,5 @@ __pycache__/
 .vscode
 *.py[cod]
 README_local.md
-venv-activate
-
-#db.sqlite3
+venv*
+db.sqlite3

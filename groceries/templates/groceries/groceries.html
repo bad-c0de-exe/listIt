@@ -31,15 +31,14 @@
 <template id="edit-template">
   <div class="center-middle flex-column">
     {% with pk_placeholder=0 %}
-    <input {% comment %} store url to set item on list {% endcomment %}
-      id="select_item_url"
-      hidden
-      value="{% url 'groceries:items-detail' pk=pk_placeholder %}"
-      x-pkPlaceholder={{ pk_placeholder }}
-    >
+      <input {% comment %} store url to set item on list {% endcomment %}
+        id="select_item_url"
+        hidden
+        value="{% url 'groceries:items-on-list' pk=pk_placeholder %}"
+        x-pkPlaceholder={{ pk_placeholder }}
+      >
     {% endwith %}
-    {% url "groceries:items-list" as get_selectable_items_url %}
-    <input x-url={{ get_selectable_items_url }}>
+    <input id="edit-input" x-url="{% url 'groceries:items-selectable' %}">
     <div id="item-options" class="flex-column"></div>
   </div>
 </template>
