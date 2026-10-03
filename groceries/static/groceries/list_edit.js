@@ -26,9 +26,9 @@ function getGroceries(e) {
     success: (items) => {
       // create items buttons from data
       for (const item of items) {
-        $itemButton = $(`<button>${item.name}</button>`).on("click", (e) =>
-          setItemOnList(e, item),
-        );
+        $itemButton = $(
+          `<button class="selectableOption">${item.name}</button>`,
+        ).on("touchend", (e) => setItemOnList(e, item));
         $itemContainer.append($itemButton);
       }
     },
