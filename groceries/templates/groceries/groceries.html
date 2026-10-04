@@ -13,24 +13,23 @@
     <div id="modal"></div>
   </div>
   <div class="page">
-    {% comment %} <input
-      id="get_listed_groceries_url"
+    <input
+      id="finish-cart-url"
       hidden
-      value="{% url 'groceries:items-list' %}"
-    >{% endcomment %}
-    <div class="button-container">
-      {% include 'groceries/buttons/icon_button.html' with icon_classes="fa-solid fa-square-plus" %}
-    </div>    
+      value="{% url 'groceries:items-finsih' %}"
+    >
     <div class="paper">
       <ul id="groceries-list">
         {% for item in items %}
-          <li href="/" class="active">{{ item.name }}</li>
+          <li href="/" class="active" x-id={{ item.id }}>{{ item.name }}</li>
         {% endfor %}
       </ul>
     </div>
     <div class="button-container">
-      {% include 'groceries/buttons/icon_button.html' with id="edit-btn" icon_classes="fa-solid fa-pencil" %}
-    </div>
+      {% include 'groceries/buttons/icon_button.html' with id="finish-btn" icon_classes="fa-solid fa-check" %}
+      {% include 'groceries/buttons/icon_button.html' with id="edit-btn"   icon_classes="fa-solid fa-pencil" %}
+      {% include 'groceries/buttons/icon_button.html' with                 icon_classes="fa-solid fa-circle-plus" %}
+    </div>    
   </div>
 </div>
 
