@@ -3,8 +3,9 @@
 
 {% block main %}
 <link rel="stylesheet" href="{% static 'groceries/groceries.css' %}">
-<script src="{% static 'groceries/groceries.js' %}"></script>
-<script src="{% static 'groceries/list_edit.js' %}"></script>
+{% comment %} define js files as modules to enable imports inside those files {% endcomment %}
+<scriptt type="module" src="{% static 'groceries/groceries.js' %}"></scriptt>
+<script type="module" src="{% static 'groceries/list_edit.js' %}"></script>
 
 <h1 class="header">Einkausliste</h1>
 <div style="position: relative; height: 100%"> {% comment %} modal anchor point {% endcomment %}
@@ -28,7 +29,7 @@
       </ul>
     </div>
     <div class="button-container">
-      {% include 'groceries/buttons/icon_button.html' with icon_classes="fa-solid fa-pencil" on_click="openListEdit()" %}
+      {% include 'groceries/buttons/icon_button.html' with id="edit-btn" icon_classes="fa-solid fa-pencil" %}
     </div>
   </div>
 </div>

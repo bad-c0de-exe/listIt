@@ -1,3 +1,12 @@
+import { toggleItem } from "./groceries.js";
+
+
+$(function() {
+    // add onClick to open edit modal to edit button
+    $("#edit-btn").on("click", openListEdit)
+});
+
+
 function openListEdit() {
   // show modal
   $("#modal-background").css("display", "flex"); // TODO: .show()
@@ -6,12 +15,12 @@ function openListEdit() {
   $template.attr("id", "edit");
   $template.appendTo($("#modal"));
   // attach onInput event handler to the input field
-  $template.find("#edit-input").on("input", getGroceries);
+  $template.find("#edit-input").on("input", getGroceries).focus();
 }
 
 function getGroceries(e) {
   let $input = $(e.target);
-  $itemContainer = $("#item-options");
+  let $itemContainer = $("#item-options");
 
   $itemContainer.empty(); // rm currently rendered item buttons
   if ($input.val() === "") {
@@ -26,7 +35,7 @@ function getGroceries(e) {
     success: (items) => {
       // create items buttons from data
       for (const item of items) {
-        $itemButton = $(
+        let $itemButton = $(
           `<button class="selectableOption">${item.name}</button>`,
         ).on("touchend", (e) => setItemOnList(e, item));
         $itemContainer.append($itemButton);
@@ -37,7 +46,7 @@ function getGroceries(e) {
 
 function setItemOnList(e, item) {
   let $input = $("#select_item_url");
-  const urlTemplate = $input.val();
+  let urlTemplate = $input.val();
   $.ajax({
     type: "POST",
     url: urlTemplate.replace($input.attr("x-pkPlaceholder"), item.id),
@@ -45,8 +54,9 @@ function setItemOnList(e, item) {
       clearSelection();
       // add selected item element to groceries list
       $("#groceries-list").append(
-        $(`<li href="/" class="active">${item.name}</li>`),
+        $(`<li href="/" class="active">${item.name}</li>`).on("click", toggleItem),
       );
+      $("#edit-input").focus();
     },
   });
 }

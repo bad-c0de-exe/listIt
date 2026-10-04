@@ -17,7 +17,7 @@
     padding: 2rem;
 }
 
-#list {
+#groceries-list {
     display: flex;
     flex-direction: column;
     gap: 0.5rem;
