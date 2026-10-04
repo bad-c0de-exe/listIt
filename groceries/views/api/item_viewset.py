@@ -22,9 +22,9 @@ class ItemViewset(ListModelMixin, UpdateModelMixin, GenericViewSet):
     def get_queryset(self) -> QuerySet[Item]:
         qs = cast(QuerySet[Item], super().get_queryset())
         if self.action == "list":
-            return qs.filter(is_selected=True)
+            return qs.filter(on_list=True)
         if self.action == "selectable":
-            return qs.filter(is_selected=False)
+            return qs.filter(on_list=False)
         return qs
 
     def get_object(self) -> Item:
@@ -40,6 +40,6 @@ class ItemViewset(ListModelMixin, UpdateModelMixin, GenericViewSet):
     def on_list(self, *args, **kwargs) -> Response:
         """Set an item on the groceries list."""
         item = self.get_object()
-        item.is_selected = True
+        item.on_list = True
         item.save()
         return Response(ItemSerializer(item).data, 200)

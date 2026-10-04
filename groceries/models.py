@@ -9,7 +9,7 @@ class Item(models.Model):
         List,
         on_delete=models.CASCADE
     )
-    is_selected = models.BooleanField(default=False)
+    on_list = models.BooleanField(default=False)
 
     def __str__(self):
         return self.name

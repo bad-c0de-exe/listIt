@@ -8,4 +8,4 @@ class GroceriesView(ListView):
     context_object_name = "items"
 
     def get_queryset(self):
-        return Item.objects.filter(is_selected=True)
+        return Item.objects.filter(on_list=True)
