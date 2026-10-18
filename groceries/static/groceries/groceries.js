@@ -26,7 +26,7 @@ function createItemElements(items) {
 
   for (const item of items) {
     let $item = $itemTemplate.contents().clone();
-    $item.find("li").attr("x-obj-id", item.id);
+    $item.attr("id", `item-${item.id}`);
     $item.find("p").text(item.name);
     $item.on("click", toggleItem);
     $item.appendTo($(GROCERIES_LIST_EL_ID));
@@ -85,8 +85,8 @@ function removeItemFromList(e) {
     type: "POST",
     // currentTarget gets the element where event handler is attached
     url: $(e.currentTarget).attr("x-url"), 
-    success: (items) => {
-      renderGroceriesList(items);
+    success: (deletedItemID) => {
+      $(`#item-${deletedItemID}`).detach(); // rm deleted item from list
     },
   });
 }

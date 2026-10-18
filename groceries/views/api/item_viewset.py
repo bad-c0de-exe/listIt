@@ -39,15 +39,12 @@ class ItemViewset(ListModelMixin, UpdateModelMixin, GenericViewSet):
     @action(detail=True, methods=['post'])
     def remove_from_list(self, *args, **kwargs) -> Response:
         """Remove a list item from the list.
-        Returns the refreshed list.
+        Returns removed item's ID.
         """
         item = self.get_object()
         item.on_list = False
         item.save()
-        return Response(
-            ItemSerializer(Item.objects.filter(on_list=True), many=True).data,
-            200
-        )   
+        return Response(item.pk, 200)   
 
     @action(detail=False, methods=['get'])
     def selectable(self, *args, **kwargs) -> Response:
