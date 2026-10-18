@@ -3,7 +3,7 @@ from typing import cast
 from django.db.models import QuerySet
 
 from rest_framework.viewsets import GenericViewSet
-from rest_framework.mixins import ListModelMixin, UpdateModelMixin
+from rest_framework.mixins import ListModelMixin, UpdateModelMixin, CreateModelMixin
 from rest_framework.filters import SearchFilter
 from rest_framework.decorators import action
 from rest_framework.response import Response
@@ -13,8 +13,12 @@ from groceries.models import Item
 from groceries.serializers import ItemPKSerializer, ItemSerializer
 
 
-class ItemViewset(ListModelMixin, UpdateModelMixin, GenericViewSet):
-
+class ItemViewset(
+    CreateModelMixin, 
+    ListModelMixin, 
+    UpdateModelMixin,
+    GenericViewSet
+):
     queryset = Item.objects.all()
     serializer_class = ItemSerializer
 

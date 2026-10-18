@@ -64,3 +64,8 @@
 .delete-icon-btn {
     background-color: var(--list-color);
 }
+
+div:has(#add-to-list-checkbox) {
+    display: flex;
+    gap: 0.5rem;
+}

@@ -5,7 +5,8 @@
 <link rel="stylesheet" href="{% static 'groceries/groceries.css' %}">
 {% comment %} define js files as modules to enable imports inside those files {% endcomment %}
 <scriptt type="module" src="{% static 'groceries/groceries.js' %}"></scriptt>
-<script type="module" src="{% static 'groceries/list_edit.js' %}"></script>
+<script type="module" src="{% static 'groceries/add_to_list.js' %}"></script>
+<script type="module" src="{% static 'groceries/edit_items.js' %}"></script>
 
 <h1 class="header">Einkausliste</h1>
 <div style="position: relative; height: 100%"> {% comment %} modal anchor point {% endcomment %}
@@ -22,13 +23,13 @@
     </div>
     <div class="button-container">
       {% include 'groceries/buttons/icon_button.html' with id="finish-btn" icon_classes="fa-solid fa-check" %}
-      {% include 'groceries/buttons/icon_button.html' with id="edit-btn"   icon_classes="fa-solid fa-pencil" %}
-      {% include 'groceries/buttons/icon_button.html' with                 icon_classes="fa-solid fa-circle-plus" %}
+      {% include 'groceries/buttons/icon_button.html' with id="add-btn"    icon_classes="fa-solid fa-pencil" %}
+      {% include 'groceries/buttons/icon_button.html' with id="edit-btn"   icon_classes="fa-solid fa-circle-plus" %}
     </div>    
   </div>
 </div>
 
-<template id="edit-template">
+<template id="add-template">
   <div class="center-middle flex-column">
     <input
       id="select_item_url"
@@ -36,7 +37,7 @@
       value="{% url 'groceries:items-put-on-list' pk=0 %}"
       x-pkPlaceholder="0"
     >
-    <input id="edit-input" x-url="{% url 'groceries:items-selectable' %}">
+    <input id="add-input" x-url="{% url 'groceries:items-selectable' %}">
     <div id="item-options" class="flex-column"></div>
   </div>
 </template>
@@ -52,5 +53,23 @@
       <i class="fa-solid fa-trash-can"></i>
     </button>
   </li>
+</template>
+
+<template id="edit-template">
+  <div class="center-middle flex-column">
+    <input 
+      id="edit-input" 
+      x-url="{% url 'groceries:items-detail' pk=0 %}"
+      x-pkPlaceholder="0"
+    >
+    <div>
+      <input 
+        id="add-to-list-checkbox" 
+        type="checkbox" 
+        checked
+      >
+      <p>Einkaufsliste hinzufügen</p>
+    </div>
+  </div>
 </template>
 {% endblock %}

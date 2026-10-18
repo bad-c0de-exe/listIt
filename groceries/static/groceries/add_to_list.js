@@ -1,19 +1,19 @@
 import { renderItem } from "./groceries.js";
 
 $(function () {
-  // add onClick to open edit modal to edit button
-  $("#edit-btn").on("click", openListEdit);
+  // add onClick to open add modal
+  $("#add-btn").on("click", openAddModal);
 });
 
-function openListEdit() {
+function openAddModal() {
   // show modal
-  $("#modal-background").css("display", "flex"); // TODO: .show()
+  $("#modal-background").css("display", "flex");
   // copy edit template into it
-  let $template = $("#edit-template").contents();
+  let $template = $("#add-template").contents();
   $template.attr("id", "edit");
   $template.appendTo($("#modal"));
   // attach onInput event handler to the input field
-  $template.find("#edit-input").on("input", getGroceries).focus();
+  $template.find("#add-input").on("input", getGroceries).focus();
 }
 
 function getGroceries(e) {
@@ -52,13 +52,13 @@ function setItemOnList(e, item) {
       renderItem(item); // append item to list
       // reset the search
       clearSelection();
-      $("#edit-input").focus();
+      $("#add-input").focus();
     },
   });
 }
 
 function clearSelection() {
-  $("#edit-input").val("");
+  $("#add-input").val("");
   $("#item-options").empty();
 }
 
