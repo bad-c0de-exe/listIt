@@ -21,40 +21,38 @@ function toggleItem(e) {
 }
 
 // create the grocery item elements for given [items]
-function createItemElements(items) {
+function renderItems(items) {
+  for (const item of items) { renderItem(item); }
+}
+
+function renderItem(item) {
   let $itemTemplate = $("#item-template");
+  let $item = $itemTemplate.contents().clone();
+  $item.attr("id", `item-${item.id}`);
+  $item.find("p").text(item.name);
+  $item.on("click", toggleItem);
+  $item.appendTo($(GROCERIES_LIST_EL_ID));
 
-  for (const item of items) {
-    let $item = $itemTemplate.contents().clone();
-    $item.attr("id", `item-${item.id}`);
-    $item.find("p").text(item.name);
-    $item.on("click", toggleItem);
-    $item.appendTo($(GROCERIES_LIST_EL_ID));
-
-    let $deleteBtn = $item.find(".delete-icon-btn");
-    let urlTemplate = $deleteBtn.attr("x-url");
-    const url = urlTemplate.replace(
-      $deleteBtn.attr("x-pkPlaceholder"),
-      item.id,
-    );
-    $deleteBtn.attr("x-url", url).on("click", removeItemFromList);
-  }
+  let $deleteBtn = $item.find(".delete-icon-btn");
+  let urlTemplate = $deleteBtn.attr("x-url");
+  const url = urlTemplate.replace($deleteBtn.attr("x-pkPlaceholder"), item.id);
+  $deleteBtn.attr("x-url", url).on("click", removeItemFromList);
 }
 
 function renderGroceriesList(items) {
   $(GROCERIES_LIST_EL_ID).empty();
-  createItemElements(items);
+  renderItems(items);
 }
 
 // load and render the grocery's list items
 function loadGroceriesList() {
   $.ajax({
     type: "GET",
-    url: $(GROCERIES_LIST_EL_ID).attr("x-url"), 
+    url: $(GROCERIES_LIST_EL_ID).attr("x-url"),
     success: (items) => {
       renderGroceriesList(items);
     },
-  });  
+  });
 }
 
 // remove items from the groceries list that are already in the cart
@@ -63,9 +61,10 @@ function removeGrabbedItems() {
   let $inactiveGroceries = $(GROCERIES_LIST_EL_ID).find("li.finished");
   const ids = $inactiveGroceries
     .map(function () {
-      return this.getAttribute("x-id");
+      return this.getAttribute("id").split("item-")[1];
     })
     .get();
+
   $.ajax({
     type: "POST",
     url: $("#finish-cart-url").val(),
@@ -84,11 +83,11 @@ function removeItemFromList(e) {
   $.ajax({
     type: "POST",
     // currentTarget gets the element where event handler is attached
-    url: $(e.currentTarget).attr("x-url"), 
+    url: $(e.currentTarget).attr("x-url"),
     success: (deletedItemID) => {
       $(`#item-${deletedItemID}`).detach(); // rm deleted item from list
     },
   });
 }
 
-export { toggleItem, createItemElements }; // importable by other js modules (i.e. type="module")
+export { renderItem }; // importable by other js modules (i.e. type="module")

@@ -18,7 +18,7 @@
     <input id="finish-cart-url" hidden value="{% url 'groceries:items-finsih' %}">
 
     <div class="paper">
-      <ul id="groceries-list" x-url="{% url 'groceries:items-list' %}">! fill via ajax !</ul>
+      <ul id="groceries-list" x-url="{% url 'groceries:items-list' %}"></ul>
     </div>
     <div class="button-container">
       {% include 'groceries/buttons/icon_button.html' with id="finish-btn" icon_classes="fa-solid fa-check" %}

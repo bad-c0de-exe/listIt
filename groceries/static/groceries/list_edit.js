@@ -1,11 +1,9 @@
-import { toggleItem } from "./groceries.js";
+import { renderItem } from "./groceries.js";
 
-
-$(function() {
-    // add onClick to open edit modal to edit button
-    $("#edit-btn").on("click", openListEdit)
+$(function () {
+  // add onClick to open edit modal to edit button
+  $("#edit-btn").on("click", openListEdit);
 });
-
 
 function openListEdit() {
   // show modal
@@ -37,7 +35,7 @@ function getGroceries(e) {
       for (const item of items) {
         let $itemButton = $(
           `<button class="selectableOption">${item.name}</button>`,
-        ).on("touchend", (e) => setItemOnList(e, item));
+        ).on("click", (e) => setItemOnList(e, item));
         $itemContainer.append($itemButton);
       }
     },
@@ -51,11 +49,9 @@ function setItemOnList(e, item) {
     type: "POST",
     url: urlTemplate.replace($input.attr("x-pkPlaceholder"), item.id),
     success: (item) => {
+      renderItem(item); // append item to list
+      // reset the search
       clearSelection();
-      // add selected item element to groceries list
-      $("#groceries-list").append(
-        $(`<li href="/" class="active">${item.name}</li>`).on("click", toggleItem),
-      );
       $("#edit-input").focus();
     },
   });
