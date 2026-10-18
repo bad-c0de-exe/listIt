@@ -8,7 +8,7 @@ $(document).ready(() => {
 
 // (un)mark item as already in shopping cart
 function toggleItem(e) {
-  let $item = $(e.target).detach();
+  let $item = $(e.currentTarget).detach();
   if ($item[0].classList.contains("active")) {
     $(GROCERIES_LIST_EL_ID).append($item);
     $($item).removeClass("active");
