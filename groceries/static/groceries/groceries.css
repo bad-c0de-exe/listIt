@@ -1,3 +1,7 @@
+:root {
+  --list-color: #f8f88a;
+}
+
 .page {
     display: flex;
     flex-direction: column;
@@ -11,7 +15,7 @@
     flex-direction: column;
     gap: 3rem;
     margin: 1.5rem auto;
-    background-color: #f8f88a;
+    background-color: var(--list-color);
     height: 80%;
     width: 70%;
     padding: 2rem;
@@ -55,4 +59,8 @@
     display: flex;
     justify-content: space-between;
     width: 100%;
+}
+
+.delete-icon-btn {
+    background-color: var(--list-color);
 }

@@ -17,8 +17,12 @@ class ItemViewset(ListModelMixin, UpdateModelMixin, GenericViewSet):
 
     queryset = Item.objects.all()
     serializer_class = ItemSerializer
+
+    #* enable item filtering by field(s)
+    # - `search_fields` define the model fields to filter for.
+    # - the name of the query_param must be `SearchFilter.search_param` ("search")
     filter_backends = [SearchFilter]
-    search_fields = ["name"] #* the name of the query_param must be `SearchFilter.search_param` ("search")
+    search_fields = ["^name"] #  ^ -> startswith
 
     def get_queryset(self) -> QuerySet[Item]:
         qs = cast(QuerySet[Item], super().get_queryset())
