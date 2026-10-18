@@ -9,21 +9,16 @@
 
 <h1 class="header">Einkausliste</h1>
 <div style="position: relative; height: 100%"> {% comment %} modal anchor point {% endcomment %}
+  
   <div id="modal-background">
     <div id="modal"></div>
   </div>
+
   <div class="page">
-    <input
-      id="finish-cart-url"
-      hidden
-      value="{% url 'groceries:items-finsih' %}"
-    >
+    <input id="finish-cart-url" hidden value="{% url 'groceries:items-finsih' %}">
+
     <div class="paper">
-      <ul id="groceries-list">
-        {% for item in items %}
-          <li href="/" class="active" x-id={{ item.id }}>{{ item.name }}</li>
-        {% endfor %}
-      </ul>
+      <ul id="groceries-list" x-url="{% url 'groceries:items-list' %}">! fill via ajax !</ul>
     </div>
     <div class="button-container">
       {% include 'groceries/buttons/icon_button.html' with id="finish-btn" icon_classes="fa-solid fa-check" %}
@@ -35,16 +30,27 @@
 
 <template id="edit-template">
   <div class="center-middle flex-column">
-    {% with pk_placeholder=0 %}
-      <input
-        id="select_item_url"
-        hidden
-        value="{% url 'groceries:items-on-list' pk=pk_placeholder %}"
-        x-pkPlaceholder={{ pk_placeholder }}
-      >
-    {% endwith %}
+    <input
+      id="select_item_url"
+      hidden
+      value="{% url 'groceries:items-put-on-list' pk=0 %}"
+      x-pkPlaceholder="0"
+    >
     <input id="edit-input" x-url="{% url 'groceries:items-selectable' %}">
     <div id="item-options" class="flex-column"></div>
   </div>
+</template>
+
+<template id="item-template">
+  <li href="/" class="active item" x-obj-id="0">
+    <p>! add item name here !</p>
+    <button 
+      class="delete-icon-btn"
+      x-url="{% url 'groceries:items-remove-from-list' pk=0 %}"
+      x-pkPlaceholder="0"
+    >
+      <i class="fa-solid fa-trash-can"></i>
+    </button>
+  </li>
 </template>
 {% endblock %}

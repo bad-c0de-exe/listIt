@@ -22,7 +22,7 @@ class ItemViewset(ListModelMixin, UpdateModelMixin, GenericViewSet):
 
     def get_queryset(self) -> QuerySet[Item]:
         qs = cast(QuerySet[Item], super().get_queryset())
-        if self.action == "list":
+        if self.action in ["list", "remove_from_list"]:
             return qs.filter(on_list=True)
         if self.action == "selectable":
             return qs.filter(on_list=False)
@@ -32,13 +32,26 @@ class ItemViewset(ListModelMixin, UpdateModelMixin, GenericViewSet):
         """For typing."""
         return super().get_object()
 
+    @action(detail=True, methods=['post'])
+    def remove_from_list(self, *args, **kwargs) -> Response:
+        """Remove a list item from the list.
+        Returns the refreshed list.
+        """
+        item = self.get_object()
+        item.on_list = False
+        item.save()
+        return Response(
+            ItemSerializer(Item.objects.filter(on_list=True), many=True).data,
+            200
+        )   
+
     @action(detail=False, methods=['get'])
     def selectable(self, *args, **kwargs) -> Response:
         """Get all items that can be selected to put on groceries list."""
         return self.list(*args, **kwargs)
 
     @action(detail=True, methods=['post'])
-    def on_list(self, *args, **kwargs) -> Response:
+    def put_on_list(self, *args, **kwargs) -> Response:
         """Set an item on the groceries list.
         Returns this item in the response.
         """
